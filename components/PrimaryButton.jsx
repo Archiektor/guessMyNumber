@@ -12,7 +12,7 @@ const PrimaryButton = ({children, onPress, userBtnStyle, textStyle, disabled}) =
             <Pressable style={({pressed}) => [
                 styles.btnInnerContainer,
                 {opacity: pressed || disabled ? 0.7 : 1}
-            ]} onPress={onPressHandler} android_ripple={{color: '#1f7323'}}>
+            ]} onPress={onPressHandler} android_ripple={{color: '#71aa1c'}}>
                 <Text style={styles.btnText}>
                     {children}
                 </Text>
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     btnOuterContainer: {
         margin: 4,
         borderRadius: 28,
-        backgroundColor: '#007BFF',
+        backgroundColor: '#0a9396',
         shadowColor: '#000', // for shadow on iOS
         shadowOffset: {width: 0, height: 2}, // for shadow on iOS
         shadowOpacity: 0.2, // for shadow on iOS
@@ -43,5 +43,5 @@ const styles = StyleSheet.create({
     btnText: {
         color: '#fff',
         textAlign: 'center',
-    }
+    },
 });

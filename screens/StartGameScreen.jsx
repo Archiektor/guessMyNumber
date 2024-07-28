@@ -15,21 +15,21 @@ const StartGameScreen = () => {
                 style={styles.numberInput}
                 value={input}
                 onChangeText={onChangeTextHandler}
-                placeholder="Guess a number..."
+                placeholder="Num..."
                 placeholderTextColor="#888"
             />
             <View style={styles.btnContainer}>
                 <PrimaryButton
                     onPress={() => console.log('Reset pressed')}
-                    userBtnStyle={{flex: 1, backgroundColor: '#4CAF50'}}
-                    textStyle={{color: '#fff', fontSize: 16}}
+                    userBtnStyle={{flex: 1, backgroundColor: '#4A90E2',}}
+                    textStyle={{color: '#fff', fontSize: 18}}
                 >
                     Reset
                 </PrimaryButton>
                 <PrimaryButton
                     onPress={() => console.log('Confirm pressed')}
-                    userBtnStyle={{flex: 1, backgroundColor: '#4CAF50'}}
-                    textStyle={{color: '#fff', fontSize: 16}}
+                    userBtnStyle={{flex: 1, backgroundColor: '#4A90E2',}}
+                    textStyle={{color: '#fff', fontSize: 18}}
                 >
                     Confirm
                 </PrimaryButton>
@@ -38,33 +38,36 @@ const StartGameScreen = () => {
     );
 }
 
+export default StartGameScreen;
+
 const styles = StyleSheet.create({
     startGameScreenContainer: {
-        flex: 1,
-        width: '100%',
+        width: '90%',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 20,
-        backgroundColor: '#247728',
+        backgroundColor: '#ecf0f1',
+        paddingHorizontal: 24,
+        paddingVertical: 16,
+        borderRadius: 25,
     },
     numberInput: {
         width: 100,
         maxHeight: 50,
-        fontSize: 32,
+        fontSize: 20,
         fontWeight: '600',
-        color: '#efd525',
-        borderBottomColor: '#efd525',
+        color: '#333',
+        borderBottomColor: '#4A90E2',
         borderBottomWidth: 2,
         paddingLeft: 10,
-        backgroundColor: 'transparent',
+        backgroundColor: '#fff',
         marginBottom: 20,
         textAlign: 'center',
     },
     btnContainer: {
         minWidth: '80%',
         flexDirection: 'row',
-        // justifyContent: 'space-between',
+        justifyContent: 'space-between',
         // borderColor: '#f10d0d',
         // borderWidth: 1,
         borderStyle: 'solid',
@@ -72,4 +75,3 @@ const styles = StyleSheet.create({
     }
 });
 
-export default StartGameScreen;
