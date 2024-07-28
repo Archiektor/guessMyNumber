@@ -21,14 +21,14 @@ const StartGameScreen = () => {
             <View style={styles.btnContainer}>
                 <PrimaryButton
                     onPress={() => console.log('Reset pressed')}
-                    userStyle={{flex: 1, backgroundColor: '#4CAF50'}}
+                    userBtnStyle={{flex: 1, backgroundColor: '#4CAF50'}}
                     textStyle={{color: '#fff', fontSize: 16}}
                 >
                     Reset
                 </PrimaryButton>
                 <PrimaryButton
                     onPress={() => console.log('Confirm pressed')}
-                    userStyle={{flex: 1, backgroundColor: '#4CAF50'}}
+                    userBtnStyle={{flex: 1, backgroundColor: '#4CAF50'}}
                     textStyle={{color: '#fff', fontSize: 16}}
                 >
                     Confirm
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 20,
-        backgroundColor: '#f5f5f5'
+        backgroundColor: '#247728',
     },
     numberInput: {
         width: 100,
@@ -57,14 +57,18 @@ const styles = StyleSheet.create({
         borderBottomColor: '#efd525',
         borderBottomWidth: 2,
         paddingLeft: 10,
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
         marginBottom: 20,
         textAlign: 'center',
     },
     btnContainer: {
         minWidth: '80%',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
+        // borderColor: '#f10d0d',
+        // borderWidth: 1,
+        borderStyle: 'solid',
+        gap: 15
     }
 });
 
