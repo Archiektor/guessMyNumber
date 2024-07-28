@@ -1,5 +1,4 @@
-import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import StartGameScreen from './screens/StartGameScreen';
 
 export default function App() {
@@ -7,5 +6,3 @@ export default function App() {
         <StartGameScreen/>
     );
 }
-
-const styles = StyleSheet.create({});
