@@ -1,35 +1,50 @@
 import React, {useState} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {Alert, StyleSheet, TextInput, View} from 'react-native';
 import PrimaryButton from '../components/PrimaryButton';
 
-const StartGameScreen = () => {
-    const [input, setInput] = useState('');
+const StartGameScreen = ({onNumberChanged}) => {
+    const [enteredNumber, setEnteredNumber] = useState('');
 
     const onChangeTextHandler = (enteredText) => {
-        setInput(enteredText);
+        setEnteredNumber(enteredText);
+    }
+
+    const resetInputHandler = () => {
+        setEnteredNumber('');
+    }
+
+    const confirmInputHandler = () => {
+        const chosenNumber = parseInt(enteredNumber);
+        if ((chosenNumber > 0 && chosenNumber < 99) || isNaN(chosenNumber)) {
+            // go to next screen
+            console.log('Valid number');
+            onNumberChanged(chosenNumber);
+        } else {
+            // log error                                                                                                  style works only on ios
+            Alert.alert('Invalid number', 'Number has to be a number between 1 and 99', [{text: 'OK', style: 'destructive', onPress: resetInputHandler}]);
+        }
     }
 
     return (
         <View style={styles.startGameScreenContainer}>
             <TextInput
                 style={styles.numberInput}
-                value={input}
+                value={enteredNumber}
                 onChangeText={onChangeTextHandler}
-                placeholder="Num..."
-                placeholderTextColor="#888"
+                placeholder={'...'}
             />
             <View style={styles.btnContainer}>
                 <PrimaryButton
-                    onPress={() => console.log('Reset pressed')}
-                    userBtnStyle={{flex: 1, backgroundColor: '#4A90E2',}}
-                    textStyle={{color: '#fff', fontSize: 18}}
+                    onPress={resetInputHandler}
+                    customBtnStyle={styles.customBtnStyle}
+                    customTextStyle={styles.customTextStyle}
                 >
                     Reset
                 </PrimaryButton>
                 <PrimaryButton
-                    onPress={() => console.log('Confirm pressed')}
-                    userBtnStyle={{flex: 1, backgroundColor: '#4A90E2',}}
-                    textStyle={{color: '#fff', fontSize: 18}}
+                    onPress={confirmInputHandler}
+                    customBtnStyle={styles.customBtnStyle}
+                    customTextStyle={styles.customTextStyle}
                 >
                     Confirm
                 </PrimaryButton>
@@ -54,14 +69,13 @@ const styles = StyleSheet.create({
     numberInput: {
         width: 100,
         maxHeight: 50,
-        fontSize: 20,
+        fontSize: 32,
         fontWeight: '600',
-        color: '#333',
+        color: '#4A90E2',
+        marginBottom: 16,
         borderBottomColor: '#4A90E2',
         borderBottomWidth: 2,
-        paddingLeft: 10,
         backgroundColor: '#fff',
-        marginBottom: 20,
         textAlign: 'center',
     },
     btnContainer: {
@@ -72,6 +86,14 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         borderStyle: 'solid',
         gap: 15
+    },
+    customBtnStyle: {
+        flex: 1,
+        backgroundColor: '#4A90E2'
+    },
+    customTextStyle: {
+        color: '#fff',
+        fontSize: 16
     }
 });
 

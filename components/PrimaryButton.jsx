@@ -1,6 +1,6 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 
-const PrimaryButton = ({children, onPress, userBtnStyle, textStyle, disabled}) => {
+const PrimaryButton = ({children, onPress, customBtnStyle, customTextStyle, disabled}) => {
     const onPressHandler = () => {
         if (onPress && !disabled) {
             onPress();
@@ -8,12 +8,12 @@ const PrimaryButton = ({children, onPress, userBtnStyle, textStyle, disabled}) =
     }
 
     return (
-        <View style={[styles.btnOuterContainer, userBtnStyle]}>
+        <View style={[styles.btnOuterContainer, customBtnStyle]}>
             <Pressable style={({pressed}) => [
                 styles.btnInnerContainer,
                 {opacity: pressed || disabled ? 0.7 : 1}
-            ]} onPress={onPressHandler} android_ripple={{color: '#71aa1c'}}>
-                <Text style={styles.btnText}>
+            ]} onPress={onPressHandler} android_ripple={{color: '#154781'}}>
+                <Text style={[styles.btnText, customTextStyle]}>
                     {children}
                 </Text>
             </Pressable>
