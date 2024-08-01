@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import {Alert, StyleSheet, TextInput, View} from 'react-native';
-import PrimaryButton from '../components/PrimaryButton';
+import {Alert, StyleSheet, TextInput, View, Text} from 'react-native';
+import {Colors} from '../constants/colors';
+import PrimaryButton from '../components/ui/PrimaryButton';
+import Title from '../components/ui/Title';
 
-const StartGameScreen = ({onNumberChanged}) => {
+const StartGameScreen = ({pickNumberCb}) => {
     const [enteredNumber, setEnteredNumber] = useState('');
 
     const onChangeTextHandler = (enteredText) => {
@@ -15,39 +17,46 @@ const StartGameScreen = ({onNumberChanged}) => {
 
     const confirmInputHandler = () => {
         const chosenNumber = parseInt(enteredNumber);
-        if ((chosenNumber > 0 && chosenNumber < 99) || isNaN(chosenNumber)) {
-            // go to next screen
-            console.log('Valid number');
-            onNumberChanged(chosenNumber);
-        } else {
-            // log error                                                                                                  style works only on ios
-            Alert.alert('Invalid number', 'Number has to be a number between 1 and 99', [{text: 'OK', style: 'destructive', onPress: resetInputHandler}]);
+
+        if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+            Alert.alert(
+                'Invalid number!',
+                'Number has to be a number between 1 and 99.',
+                [{text: 'Okay', style: 'destructive', onPress: resetInputHandler}]
+            );
+            return;
         }
+
+        pickNumberCb(chosenNumber);
     }
 
     return (
-        <View style={styles.startGameScreenContainer}>
-            <TextInput
-                style={styles.numberInput}
-                value={enteredNumber}
-                onChangeText={onChangeTextHandler}
-                placeholder={'...'}
-            />
-            <View style={styles.btnContainer}>
-                <PrimaryButton
-                    onPress={resetInputHandler}
-                    customBtnStyle={styles.customBtnStyle}
-                    customTextStyle={styles.customTextStyle}
-                >
-                    Reset
-                </PrimaryButton>
-                <PrimaryButton
-                    onPress={confirmInputHandler}
-                    customBtnStyle={styles.customBtnStyle}
-                    customTextStyle={styles.customTextStyle}
-                >
-                    Confirm
-                </PrimaryButton>
+        <View>
+            <Title customTitleStyles={styles.customTitle}>Guess My Number</Title>
+            <View style={styles.startGameScreenContainer}>
+                <Text style={styles.instructionText}>Enter any number between 1 and 99</Text>
+                <TextInput
+                    style={styles.numberInput}
+                    value={enteredNumber}
+                    onChangeText={onChangeTextHandler}
+                    placeholder={'...'}
+                />
+                <View style={styles.btnContainer}>
+                    <PrimaryButton
+                        onPress={resetInputHandler}
+                        customBtnStyle={styles.customBtnStyle}
+                        customTextStyle={styles.customTextStyle}
+                    >
+                        Reset
+                    </PrimaryButton>
+                    <PrimaryButton
+                        onPress={confirmInputHandler}
+                        customBtnStyle={styles.customBtnStyle}
+                        customTextStyle={styles.customTextStyle}
+                    >
+                        Confirm
+                    </PrimaryButton>
+                </View>
             </View>
         </View>
     );
@@ -56,12 +65,18 @@ const StartGameScreen = ({onNumberChanged}) => {
 export default StartGameScreen;
 
 const styles = StyleSheet.create({
+    customTitle: {
+        color: Colors.primaryText,
+        fontSize: 32,
+        padding: 2,
+    },
+    instructionText: {},
     startGameScreenContainer: {
         width: '90%',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ecf0f1',
+        backgroundColor: Colors.primaryText,
         paddingHorizontal: 24,
         paddingVertical: 16,
         borderRadius: 25,
@@ -71,11 +86,11 @@ const styles = StyleSheet.create({
         maxHeight: 50,
         fontSize: 32,
         fontWeight: '600',
-        color: '#4A90E2',
+        color: Colors.primary500,
         marginBottom: 16,
-        borderBottomColor: '#4A90E2',
+        borderBottomColor: Colors.primary500,
         borderBottomWidth: 2,
-        backgroundColor: '#fff',
+        backgroundColor: Colors.primaryText,
         textAlign: 'center',
     },
     btnContainer: {
@@ -89,10 +104,10 @@ const styles = StyleSheet.create({
     },
     customBtnStyle: {
         flex: 1,
-        backgroundColor: '#4A90E2'
+        backgroundColor: Colors.primary500
     },
     customTextStyle: {
-        color: '#fff',
+        color: Colors.primaryText,
         fontSize: 16
     }
 });

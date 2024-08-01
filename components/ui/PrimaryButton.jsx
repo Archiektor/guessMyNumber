@@ -1,4 +1,5 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Colors} from '../../constants/colors';
 
 const PrimaryButton = ({children, onPress, customBtnStyle, customTextStyle, disabled}) => {
     const onPressHandler = () => {
@@ -12,7 +13,7 @@ const PrimaryButton = ({children, onPress, customBtnStyle, customTextStyle, disa
             <Pressable style={({pressed}) => [
                 styles.btnInnerContainer,
                 {opacity: pressed || disabled ? 0.7 : 1}
-            ]} onPress={onPressHandler} android_ripple={{color: '#154781'}}>
+            ]} onPress={onPressHandler} android_ripple={{color: Colors.primary700}}>
                 <Text style={[styles.btnText, customTextStyle]}>
                     {children}
                 </Text>
@@ -28,8 +29,8 @@ const styles = StyleSheet.create({
     btnOuterContainer: {
         margin: 4,
         borderRadius: 28,
-        backgroundColor: '#0a9396',
-        shadowColor: '#000', // for shadow on iOS
+        backgroundColor: Colors.secondary500,
+        shadowColor: Colors.shadows, // for shadow on iOS
         shadowOffset: {width: 0, height: 2}, // for shadow on iOS
         shadowOpacity: 0.2, // for shadow on iOS
         shadowRadius: 3, // for shadow on iOS
@@ -41,7 +42,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     btnText: {
-        color: '#fff',
+        fontFamily: 'open-sans-regular',
+        color: Colors.primaryText,
         textAlign: 'center',
     },
 });
