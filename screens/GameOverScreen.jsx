@@ -1,50 +1,67 @@
-import {Text, Image, StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Text, Image, StyleSheet, View, Dimensions} from 'react-native';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import {Colors} from '../constants/colors';
 import Title from '../components/ui/Title';
 
 const GameOverScreen = ({startNewGameCb, guessedNumber}) => {
-    return (<View style={styles.screen}>
-        <Title customTitleStyles={styles.gameOverText}>Game Over</Title>
-        <View style={styles.imgContainer}>
-            <Image source={require('../assets/images/success.png')} style={styles.image}/>
+    const [isSmallDevice, setIsSmallDevice] = useState(Dimensions.get('window').height < 390);
+
+    useEffect(() => {
+        const updateLayout = () => {
+            setIsSmallDevice(Dimensions.get('window').height < 390);
+        };
+
+        const subscription = Dimensions.addEventListener('change', updateLayout);
+
+        return () => {
+            subscription?.remove();
+        };
+    }, []);
+
+    return (
+        <View style={styles.screen}>
+            <Title customTitleStyles={{...styles.gameOverText, fontSize: isSmallDevice ? 24 : 36}}>Game Over</Title>
+            <View style={{
+                ...styles.imgContainer, width: isSmallDevice ? 140 : 280, height: isSmallDevice ? 140 : 280, borderRadius: isSmallDevice ? 70 : 140,
+                marginBottom: isSmallDevice ? 20 : 40
+            }}>
+                <Image source={require('../assets/images/success.png')} style={styles.image}/>
+            </View>
+            <View>
+                <Text style={{...styles.text, marginBottom: isSmallDevice ? 12 : 24}}>Your phone guessed the number <Text style={styles.selected}>{guessedNumber}</Text>.</Text>
+            </View>
+            <PrimaryButton onPress={startNewGameCb} customBtnStyle={styles.customBtnStyle} customTextStyle={styles.customTextStyle}>
+                Start new game
+            </PrimaryButton>
         </View>
-        <View>
-            <Text style={styles.text}>Your phone guessed the number <Text
-                style={styles.selected}>{guessedNumber}</Text>.</Text>
-        </View>
-        <PrimaryButton onPress={startNewGameCb} customBtnStyle={styles.customBtnStyle} customTextStyle={styles.customTextStyle}>Start new game</PrimaryButton>
-    </View>);
+    );
 }
 
-export default GameOverScreen
+export default GameOverScreen;
 
 const styles = StyleSheet.create({
     screen: {
-        flex: 1, padding: 48,
+        flex: 1,
+        padding: 48,
         justifyContent: 'center',
         alignItems: 'center',
     },
     customBtnStyle: {
-        backgroundColor: Colors.primary500
+        backgroundColor: Colors.primary500,
     },
     customTextStyle: {
         color: Colors.primaryText,
-        fontSize: 20
+        fontSize: 20,
     },
     gameOverText: {
         color: Colors.primaryText,
-        fontSize: 36,
         marginBottom: 24,
     },
     imgContainer: {
-        width: 300,
-        height: 300,
-        borderRadius: 150,
         borderWidth: 3,
         borderColor: Colors.primaryText,
         overflow: 'hidden',
-        marginBottom: 40,
     },
     image: {
         width: '100%',
@@ -62,6 +79,5 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 18,
         textAlign: 'center',
-        marginBottom: 24,
     }
-})
+});

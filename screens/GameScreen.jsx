@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {Alert, Text, View, StyleSheet, FlatList} from 'react-native';
+import {Alert, Text, View, StyleSheet, FlatList, useWindowDimensions} from 'react-native';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Title from '../components/ui/Title';
 import NumberContainer from '../components/game/NumberContainer';
@@ -28,6 +28,8 @@ const GameScreen = ({userNumber, gameOverCb}) => {
     const [numberOfTries, setNumberOfTries] = useState(1);
     const [gameOver, setGameOver] = useState(false);
     const [data, setData] = useState([currentGuess]);
+
+    const {width, height} = useWindowDimensions();
 
     useEffect(() => {
         minBoundary = 1;
@@ -68,14 +70,16 @@ const GameScreen = ({userNumber, gameOverCb}) => {
         setNumberOfTries(prevTries => prevTries + 1);
     }
 
-    console.log(`Current boundaries are : [${minBoundary}/ ${maxBoundary}]`);
+    //console.log(`Current boundaries are : [${minBoundary}/ ${maxBoundary}]`);
+
+    const isSmallDevice = height < 390;
 
     return (
-        <View style={styles.screen}>
+        <View style={[styles.screen, {marginTop: isSmallDevice ? 15 : 140}]}>
             <Title customTitleStyles={styles.customTitle}>Opponent's Guess</Title>
             <NumberContainer>{currentGuess}</NumberContainer>
             <View>
-                <Text style={{textAlign: 'center', fontSize: 22, marginBottom: 10}}>Higher or lower?</Text>
+                <Text style={[styles.text, {fontSize: isSmallDevice ? 14 : 22, marginBottom: isSmallDevice ? 5 : 10}]}>Higher or lower?</Text>
                 <View style={styles.btnContainer}>
                     <PrimaryButton onPress={() => nextGuessHandler('lower')} customBtnStyle={styles.customBtnStyleSecond}>
                         <Ionicons name={'remove'} size={22} color={'white'}/>
@@ -104,13 +108,16 @@ export default GameScreen;
 
 const styles = StyleSheet.create({
     screen: {
-        flex: 1, padding: 48,
+        flex: 1,
+        padding: 24,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        marginTop: 140,
     },
     customTitle: {
         color: Colors.primaryText, borderColor: Colors.primaryText, borderWidth: 2, borderStyle: 'solid'
+    },
+    text: {
+        textAlign: 'center',
     },
     btnContainer: {
         flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12,
@@ -122,7 +129,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.primary500, flex: 1,
     },
     customTextStyle: {
-        color: Colors.primaryText, fontSize: 16
+        color: Colors.primaryText,
     },
     singleItem: {
         marginTop: 6,
@@ -147,6 +154,6 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         flex: 1,
-        padding: 24
+        padding: 16,
     }
 });

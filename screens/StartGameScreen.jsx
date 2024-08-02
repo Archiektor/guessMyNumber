@@ -1,19 +1,34 @@
-import React, {useState} from 'react';
-import {Alert, StyleSheet, TextInput, View, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Alert, StyleSheet, TextInput, View, Text, Dimensions, KeyboardAvoidingView} from 'react-native';
 import {Colors} from '../constants/colors';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Title from '../components/ui/Title';
 
 const StartGameScreen = ({pickNumberCb}) => {
     const [enteredNumber, setEnteredNumber] = useState('');
+    const [isSmallDevice, setIsSmallDevice] = useState(Dimensions.get('window').height < 390);
+
+    useEffect(() => {
+        const updateLayout = () => {
+            setIsSmallDevice(Dimensions.get('window').height < 390);
+        };
+
+        const dimensionListener = Dimensions.addEventListener('change', updateLayout);
+
+        return () => {
+            if (dimensionListener) {
+                dimensionListener.remove();
+            }
+        };
+    }, []);
 
     const onChangeTextHandler = (enteredText) => {
         setEnteredNumber(enteredText);
-    }
+    };
 
     const resetInputHandler = () => {
         setEnteredNumber('');
-    }
+    };
 
     const confirmInputHandler = () => {
         const chosenNumber = parseInt(enteredNumber);
@@ -28,49 +43,47 @@ const StartGameScreen = ({pickNumberCb}) => {
         }
 
         pickNumberCb(chosenNumber);
-    }
+    };
 
     return (
-        <View>
-            <Title customTitleStyles={styles.customTitle}>Guess My Number</Title>
-            <View style={styles.startGameScreenContainer}>
-                <Text style={styles.instructionText}>Enter any number between 1 and 99</Text>
-                <TextInput
-                    style={styles.numberInput}
-                    value={enteredNumber}
-                    onChangeText={onChangeTextHandler}
-                    placeholder={'...'}
-                />
-                <View style={styles.btnContainer}>
-                    <PrimaryButton
-                        onPress={resetInputHandler}
-                        customBtnStyle={styles.customBtnStyle}
-                        customTextStyle={styles.customTextStyle}
-                    >
-                        Reset
-                    </PrimaryButton>
-                    <PrimaryButton
-                        onPress={confirmInputHandler}
-                        customBtnStyle={styles.customBtnStyle}
-                        customTextStyle={styles.customTextStyle}
-                    >
-                        Confirm
-                    </PrimaryButton>
+        <KeyboardAvoidingView>
+            <View>
+                <Title customTitleStyles={{...styles.customTitle, fontSize: isSmallDevice ? 13 : 26, marginBottom: isSmallDevice ? 12 : 24}}>
+                    Guess My Number
+                </Title>
+                <View style={styles.startGameScreenContainer}>
+                    <Text style={styles.instructionText}>Enter any number between 1 and 99</Text>
+                    <TextInput
+                        style={styles.numberInput}
+                        value={enteredNumber}
+                        onChangeText={onChangeTextHandler}
+                        placeholder={'...'}
+                    />
+                    <View style={styles.btnContainer}>
+                        <PrimaryButton onPress={resetInputHandler} customBtnStyle={styles.customBtnStyle} customTextStyle={styles.customTextStyle}>
+                            Reset
+                        </PrimaryButton>
+                        <PrimaryButton onPress={confirmInputHandler} customBtnStyle={styles.customBtnStyle} customTextStyle={styles.customTextStyle}>
+                            Confirm
+                        </PrimaryButton>
+                    </View>
                 </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
-}
+};
 
 export default StartGameScreen;
 
 const styles = StyleSheet.create({
     customTitle: {
         color: Colors.primaryText,
-        fontSize: 32,
         padding: 2,
     },
-    instructionText: {},
+    instructionText: {
+        fontSize: 16,
+        marginBottom: 8,
+    },
     startGameScreenContainer: {
         width: '90%',
         flexDirection: 'column',
@@ -94,21 +107,18 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     btnContainer: {
-        minWidth: '80%',
+        minWidth: '90%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        // borderColor: '#f10d0d',
-        // borderWidth: 1,
         borderStyle: 'solid',
-        gap: 15
+        gap: 5,
     },
     customBtnStyle: {
         flex: 1,
-        backgroundColor: Colors.primary500
+        backgroundColor: Colors.primary500,
     },
     customTextStyle: {
         color: Colors.primaryText,
-        fontSize: 16
-    }
+        fontSize: 16,
+    },
 });
-
