@@ -29,7 +29,7 @@ const GameScreen = ({userNumber, gameOverCb}) => {
     const [gameOver, setGameOver] = useState(false);
     const [data, setData] = useState([currentGuess]);
 
-    const {width, height} = useWindowDimensions();
+    const {height} = useWindowDimensions();
 
     useEffect(() => {
         minBoundary = 1;
